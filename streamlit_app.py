@@ -1,5 +1,49 @@
 import streamlit as st
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2 import service_account
+import pandas as pd
+import matplotlib.pyplot as plt
 
 st.title("Hello on streamlit !")
+
+#################### Google Sheet Chart Logic ##################################
+
+# Get credentials from streamlit cloud secrets
+scope = ['https://spreadsheets.google.com/feeds',
+         'https://www.googleapis.com/auth/drive']
+creds = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=[
+        "https://www.googleapis.com/auth/spreadsheets",
+    ],
+)
+
+# use creds to create a client to interact with the Google Drive API
+client = gspread.authorize(creds)
+
+# Find a workbook by name and open the first sheet
+# Make sure you use the right name here.
+sheet = client.open("Test1").sheet1
+
+# Extract and print all of the values
+df = pd.DataFrame(sheet.get_all_records())
+
+sm12_fig = plt.figure(figsize=(6,4))
+# couletransparence générale du graphique
+sm12_fig.patch.set_facecolor('green')
+sm12_fig.patch.set_alpha(0.2)
+
+sm12_ax = sm12_fig.add_subplot(111)
+
+df.plot.bar(alpha=0.5, ax=sm12_ax, title="SM12");
+
+##################### Layout Application ##################
+
+container1 = st.container()
+col1 = st.columns(1)
+
+with container1:
+    with col1:
+        sm12_fig
