@@ -9,20 +9,27 @@ import platform
 
 st.title("Hello on streamlit !")
 
+if(platform.processor() == ""):
+    cloudExecution = True
+else:
+    cloudExecution = False
+
 #################### Google Sheet Credentials Logic ##################################
 
-# Code à activer pour déploiement streamlit cloud : récupérer credentials depuis secrets
-scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
-creds = service_account.Credentials.from_service_account_info(
+# Récupérer des credentials
+if(cloudExecution):
+    # pour streamlit cloud : récupération depuis les secrets
+    scope = [   'https://spreadsheets.google.com/feeds',
+                'https://www.googleapis.com/auth/drive']
+    creds = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"],
     scopes=scope,
-)
-
-# Code à activer pour test streamlit local : récupérer credentials depuis client_secret.json
-# scope = ['https://spreadsheets.google.com/feeds',
-#          'https://www.googleapis.com/auth/drive']
-# creds = ServiceAccountCredentials.from_json_keyfile_name('C:\\Users\px9\PycharmProjects\Alimentor\client_secret.json', scope)
+    )
+else:
+    # en local : récupération depuis le fichier client_secret.json
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('C:\\Users\px9\PycharmProjects\Alimentor\client_secret.json', scope)
 
 # use creds to create a client to interact with the Google Drive API
 client = gspread.authorize(creds)
@@ -50,6 +57,6 @@ col1, col2 = st.columns(2)
 
 with container1:
     with col1:
-        st.warning(platform.processor())
+        st.warning("Cloud=" + str(cloudExecution))
     with col2:
         sm12_fig
