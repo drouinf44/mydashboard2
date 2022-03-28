@@ -5,6 +5,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from google.oauth2 import service_account
 import pandas as pd
 import matplotlib.pyplot as plt
+import platform
 
 st.title("Hello on streamlit !")
 
@@ -49,6 +50,6 @@ col1, col2 = st.columns(2)
 
 with container1:
     with col1:
-        st.warning("toto")
+        st.warning(platform.processor())
     with col2:
         sm12_fig
