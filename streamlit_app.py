@@ -8,17 +8,20 @@ import matplotlib.pyplot as plt
 
 st.title("Hello on streamlit !")
 
-#################### Google Sheet Chart Logic ##################################
+#################### Google Sheet Credentials Logic ##################################
 
-# Get credentials from streamlit cloud secrets
+# Code à activer pour déploiement streamlit cloud : récupérer credentials depuis secrets
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 creds = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"],
-    scopes=[
-        "https://www.googleapis.com/auth/spreadsheets",
-    ],
+    scopes=scope,
 )
+
+# Code à activer pour test streamlit local : récupérer credentials depuis client_secret.json
+# scope = ['https://spreadsheets.google.com/feeds',
+#          'https://www.googleapis.com/auth/drive']
+# creds = ServiceAccountCredentials.from_json_keyfile_name('C:\\Users\px9\PycharmProjects\Alimentor\client_secret.json', scope)
 
 # use creds to create a client to interact with the Google Drive API
 client = gspread.authorize(creds)
@@ -42,8 +45,10 @@ df.plot.bar(alpha=0.5, ax=sm12_ax, title="SM12");
 ##################### Layout Application ##################
 
 container1 = st.container()
-col1 = st.columns(1)
+col1, col2 = st.columns(2)
 
 with container1:
     with col1:
+        st.warning("toto")
+    with col2:
         sm12_fig
