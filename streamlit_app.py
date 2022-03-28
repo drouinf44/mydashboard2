@@ -57,6 +57,6 @@ col1, col2 = st.columns(2)
 
 with container1:
     with col1:
-        st.warning("Cloud=" + str(cloudExecution))
+        st.warning("Cloud = " + str(cloudExecution))
     with col2:
         sm12_fig
