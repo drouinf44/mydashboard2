@@ -43,10 +43,10 @@ client = gspread.authorize(creds)
 sheet = client.open("SAP_PERF").sheet1
 
 # Extract and print all of the values
-df = pd.DataFrame(sheet.get_all_records())
-sm12_fig = plt.figure(figsize=(6,4))
-sm12_ax = sm12_fig.add_subplot(111)
-df.plot.bar(alpha=0.5, ax=sm12_ax, title="SM12");
+# df = pd.DataFrame(sheet.get_all_records())
+# sm12_fig = plt.figure(figsize=(6,4))
+# sm12_ax = sm12_fig.add_subplot(111)
+# df.plot.bar(alpha=0.5, ax=sm12_ax, title="SM12");
 
 # Récupérer le numéro de la première ligne vide et la valeur de la dernière date renseignée
 last_row = len(list(filter(None, sheet.col_values(1))))
@@ -54,10 +54,12 @@ sm12_int = int(sheet.cell(last_row, 2).value)
 sm12_str = str(sheet.cell(last_row, 2).value)
 
 ##################### Layout Application ##################
-if sm12_int < 150:                      st.success("SM12 : " + sm12_str)
-if (sm12_int >= 150 & sm12_int <300):   st.warning("SM12 : " + sm12_str)
-if sm12_int > 300:                      st.error("SM12 : " + sm12_str)
-
+if sm12_int < 150:
+    st.success("SM12 : " + sm12_str)
+elif sm12_int <300:
+    st.warning("SM12 : " + sm12_str)
+else:
+    st.error("SM12 : " + sm12_str)
 
 # container1 = st.container()
 # col1, col2, col3, col4, col5  = st.columns(5)
