@@ -11,7 +11,7 @@ import platform
 # update every 1 min
 st_autorefresh(interval=1 * 60 * 1000, key="dataframerefresh")
 
-st.title("Hello on streamlit !!!")
+st.title("Hello on streamlit 1")
 
 if(platform.processor() == ""):
     cloudExecution = True
