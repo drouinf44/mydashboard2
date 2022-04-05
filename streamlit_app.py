@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import platform
 
-st.title("Hello on streamlit !")
+st.title("Hello on streamlit !!")
 
 if(platform.processor() == ""):
     cloudExecution = True
