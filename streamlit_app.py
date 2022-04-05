@@ -54,9 +54,9 @@ sm12_int = int(sheet.cell(last_row, 2).value)
 sm12_str = str(sheet.cell(last_row, 2).value)
 
 ##################### Layout Application ##################
-if sm12_int < 150:
+if sm12_int < 500:
     st.success("SM12 : " + sm12_str)
-elif sm12_int <300:
+elif sm12_int <5000:
     st.warning("SM12 : " + sm12_str)
 else:
     st.error("SM12 : " + sm12_str)
