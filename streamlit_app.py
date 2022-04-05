@@ -52,11 +52,22 @@ df.plot.bar(alpha=0.5, ax=sm12_ax, title="SM12");
 
 ##################### Layout Application ##################
 
+
+
 container1 = st.container()
-col1, col2 = st.columns(2)
+col1, col2, col3, col4, col5  = st.columns(5)
 
 with container1:
     with col1:
-        st.warning("Cloud = " + str(cloudExecution))
+        st.markdown("<h6 style='text-align: center; vertical-align: middle; color: black;'>BOM SAP/ouvrage</h6>", unsafe_allow_html=True)
     with col2:
-        sm12_fig
+        st.warning("L34")
+    with col3:
+        st.error("W34")
+    with col4:
+        st.success("T34")
+    with col5:
+        st.success("T34")
+
+with st.expander("Details BOM/étape..."):
+    sm12_fig
