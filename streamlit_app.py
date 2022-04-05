@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -6,6 +7,9 @@ from google.oauth2 import service_account
 import pandas as pd
 import matplotlib.pyplot as plt
 import platform
+
+# update every 1 min
+st_autorefresh(interval=1 * 60 * 1000, key="dataframerefresh")
 
 st.title("Hello on streamlit !!!")
 
@@ -40,34 +44,32 @@ sheet = client.open("Test1").sheet1
 
 # Extract and print all of the values
 df = pd.DataFrame(sheet.get_all_records())
-
 sm12_fig = plt.figure(figsize=(6,4))
-# couletransparence générale du graphique
-sm12_fig.patch.set_facecolor('green')
-sm12_fig.patch.set_alpha(0.2)
-
 sm12_ax = sm12_fig.add_subplot(111)
-
 df.plot.bar(alpha=0.5, ax=sm12_ax, title="SM12");
+
+# Récupérer le numéro de la première ligne vide et la valeur de la dernière date renseignée
+last_row = len(list(filter(None, sheet.col_values(1))))
+sm12_str = str(sheet.cell(last_row, 2).value)
 
 ##################### Layout Application ##################
 
+st.warning("SM12 : " + sm12_str)
 
+# container1 = st.container()
+# col1, col2, col3, col4, col5  = st.columns(5)
+#
+# with container1:
+#     with col1:
+#         st.markdown("<h6 style='text-align: center; vertical-align: middle; color: black;'>BOM SAP/ouvrage</h6>", unsafe_allow_html=True)
+#     with col2:
+#         st.warning("L34")
+#     with col3:
+#         st.error("W34")
+#     with col4:
+#         st.success("T34")
+#     with col5:
+#         st.success("T34")
 
-container1 = st.container()
-col1, col2, col3, col4, col5  = st.columns(5)
-
-with container1:
-    with col1:
-        st.markdown("<h6 style='text-align: center; vertical-align: middle; color: black;'>BOM SAP/ouvrage</h6>", unsafe_allow_html=True)
-    with col2:
-        st.warning("L34")
-    with col3:
-        st.error("W34")
-    with col4:
-        st.success("T34")
-    with col5:
-        st.success("T34")
-
-with st.expander("Details BOM/étape..."):
-    sm12_fig
+# with st.expander("Details BOM/étape..."):
+#     sm12_fig
