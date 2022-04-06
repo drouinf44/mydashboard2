@@ -74,9 +74,9 @@ with container1:
         else:
             st.error("SM12 : " + sm12_str)
     with col2:
-        if sm12_int < 500:
+        if sm13_int < 500:
             st.success("SM13 : " + sm13_str)
-        elif sm12_int < 5000:
+        elif sm13_int < 5000:
             st.warning("SM13 : " + sm13_str)
         else:
             st.error("SM13 : " + sm13_str)
