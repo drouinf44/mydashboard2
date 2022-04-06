@@ -40,7 +40,9 @@ client = gspread.authorize(creds)
 
 # Find a workbook by name and open the first sheet
 # Make sure you use the right name here.
-sheet = client.open("SAP_PERF").sheet1
+sap_perf = client.open("SAP_PERF")
+sm12_sheet = sap_perf.worksheet("SM12")
+sm13_sheet = sap_perf.worksheet("SM13")
 
 # Extract and print all of the values
 # df = pd.DataFrame(sheet.get_all_records())
@@ -48,27 +50,41 @@ sheet = client.open("SAP_PERF").sheet1
 # sm12_ax = sm12_fig.add_subplot(111)
 # df.plot.bar(alpha=0.5, ax=sm12_ax, title="SM12");
 
-# Récupérer le numéro de la première ligne vide et la valeur de la dernière date renseignée
-last_row = len(list(filter(None, sheet.col_values(1))))
-sm12_int = int(sheet.cell(last_row, 2).value)
-sm12_str = str(sheet.cell(last_row, 2).value)
+# SM12 : Récupérer le numéro de la première ligne vide et la valeur de la dernière date renseignée
+last_row_sm12 = len(list(filter(None, sm12_sheet.col_values(1))))
+sm12_int = int(sm12_sheet.cell(last_row_sm12, 2).value)
+sm12_str = str(sm12_sheet.cell(last_row_sm12, 2).value)
+
+# SM13 : Récupérer le numéro de la première ligne vide et la valeur de la dernière date renseignée
+last_row_sm13 = len(list(filter(None, sm13_sheet.col_values(1))))
+sm13_int = int(sm13_sheet.cell(last_row_sm13, 2).value)
+sm13_str = str(sm13_sheet.cell(last_row_sm13, 2).value)
 
 ##################### Layout Application ##################
-if sm12_int < 500:
-    st.success("SM12 : " + sm12_str)
-elif sm12_int <5000:
-    st.warning("SM12 : " + sm12_str)
-else:
-    st.error("SM12 : " + sm12_str)
 
-# container1 = st.container()
-# col1, col2, col3, col4, col5  = st.columns(5)
-#
-# with container1:
-#     with col1:
-#         st.markdown("<h6 style='text-align: center; vertical-align: middle; color: black;'>BOM SAP/ouvrage</h6>", unsafe_allow_html=True)
-#     with col2:
-#         st.warning("L34")
+container1 = st.container()
+col1, col2  = st.columns(2)
+
+with container1:
+    with col1:
+        if sm12_int < 1000:
+            st.success("SM12 : " + sm12_str)
+        elif sm12_int < 10000:
+            st.warning("SM12 : " + sm12_str)
+        else:
+            st.error("SM12 : " + sm12_str)
+    with col2:
+        if sm12_int < 500:
+            st.success("SM13 : " + sm13_str)
+        elif sm12_int < 5000:
+            st.warning("SM13 : " + sm13_str)
+        else:
+            st.error("SM13 : " + sm13_str)
+
+
+
+
+
 #     with col3:
 #         st.error("W34")
 #     with col4:
